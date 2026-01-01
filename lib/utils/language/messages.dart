@@ -76,6 +76,13 @@ class Messages extends Translations {
     'submitOrder': 'Submit Order',
     'orderCreatedSuccessfully': 'Order Created Successfully',
     'pleaseSelectCustomer': 'Please Select Customer',
+    'cart': 'Cart',
+    'clearCart': 'Clear Cart',
+    'areYouSureClearCart': 'Are you sure you want to clear the cart?',
+    'clear': 'Clear',
+    'page': 'Page',
+    'showCart': 'Show Cart',
+    'hideCart': 'Hide Cart',
     },
     
     //----------------------- Arabic
@@ -150,6 +157,13 @@ class Messages extends Translations {
   'submitOrder': 'إرسال الطلب',
   'orderCreatedSuccessfully': 'تم إنشاء الطلب بنجاح',
   'pleaseSelectCustomer': 'يرجى اختيار عميل',
+  'cart': 'السلة',
+  'clearCart': 'مسح السلة',
+  'areYouSureClearCart': 'هل أنت متأكد من مسح السلة؟',
+  'clear': 'مسح',
+  'page': 'صفحة',
+  'showCart': 'إظهار السلة',
+  'hideCart': 'إخفاء السلة',
     },
   };
 }

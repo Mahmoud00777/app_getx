@@ -16,10 +16,10 @@ import 'package:pos_app/data/repositories/item_repository.dart';
 import 'package:pos_app/data/repositories/sales_order_repository.dart';
 
 class PosController extends GetxController {
-  final ItemRepository _itemRepository = ItemRepository();
-  final CustomersRepository _customerRepository = CustomersRepository();
-  final ItemGroupRepository _itemGroupRepository = ItemGroupRepository();
-  final SalesOrderRepository _salesOrderRepository = SalesOrderRepository();
+  final ItemRepository _itemRepository;
+  final CustomersRepository _customerRepository;
+  final ItemGroupRepository _itemGroupRepository;
+  final SalesOrderRepository _salesOrderRepository;
 
   final RxList<ItemModel> items = <ItemModel>[].obs;
   final RxList<ItemGroupModel> itemGroups = <ItemGroupModel>[].obs;
@@ -32,6 +32,7 @@ class PosController extends GetxController {
   final RxBool isLoadingItemGroups = false.obs;
   final RxBool isLoadingCustomers = false.obs;
   final RxBool isSubmitting = false.obs;
+  final RxBool isCartVisible = false.obs;
 
   final RxInt currentPage = 1.obs;
   final RxInt pageSize = 20.obs;
@@ -50,6 +51,15 @@ class PosController extends GetxController {
   }
 
   late TextEditingController searchController;
+
+  PosController({required ItemRepository itemRepository, 
+  required CustomersRepository customerRepository,
+   required ItemGroupRepository itemGroupRepository,
+    required SalesOrderRepository salesOrderRepository})
+     : _itemRepository = itemRepository,
+      _customerRepository = customerRepository,
+       _itemGroupRepository = itemGroupRepository,
+        _salesOrderRepository = salesOrderRepository;
 
   @override
   void onInit() {
@@ -212,6 +222,10 @@ class PosController extends GetxController {
 
   void clearCart() {
     cartItems.clear();
+  }
+
+  void toggleCart() {
+    isCartVisible.value = !isCartVisible.value;
   }
 
   void selectCustomer(CustomerModel? customer) {

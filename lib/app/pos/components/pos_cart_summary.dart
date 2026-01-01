@@ -11,7 +11,7 @@ class PosCartSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: Column(
           children: [
             Row(

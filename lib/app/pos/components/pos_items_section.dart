@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/pos_controller.dart';
 import 'pos_item_card.dart';
+import '../../../utils/constants.dart';
 
 class PosItemsSection extends StatelessWidget {
   final PosController controller;
@@ -17,12 +18,47 @@ class PosItemsSection extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: TextField(
-                  controller: controller.searchController,
-                  decoration: InputDecoration(
-                    hintText: 'searchItems'.tr,
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: controller.searchController,
+                    decoration: InputDecoration(
+                      hintText: 'searchItems'.tr,
+                      prefixIcon: Icon(Icons.search, color: primaryAppColor),
+                      suffixIcon: Obx(() {
+                        if (controller.searchQuery.value.isNotEmpty) {
+                          return IconButton(
+                            icon: Icon(Icons.clear, size: 20),
+                            onPressed: () {
+                              controller.searchController.clear();
+                              controller.searchQuery.value = '';
+                              controller.loadItems(reset: true);
+                            },
+                          );
+                        }
+                        return SizedBox.shrink();
+                      }),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: white,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -31,8 +67,16 @@ class PosItemsSection extends StatelessWidget {
                 () => Container(
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(4),
+                    color: white,
+                    border: Border.all(color: greyShade300),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: DropdownButton<String>(
                     value: controller.selectedItemGroup.value.isEmpty
@@ -41,6 +85,7 @@ class PosItemsSection extends StatelessWidget {
                     hint: Text('allGroups'.tr),
                     underline: SizedBox.shrink(),
                     isExpanded: false,
+                    icon: Icon(Icons.filter_list, color: primaryAppColor),
                     items: [
                       DropdownMenuItem<String>(
                         value: '',
@@ -72,13 +117,34 @@ class PosItemsSection extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${controller.items.length} / ${controller.totalItems.value} ${'items'.tr}',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: primaryAppColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '${controller.items.length} / ${controller.totalItems.value} ${'items'.tr}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: primaryAppColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  Text(
-                    '${'page'.tr} ${controller.currentPage.value} / ${controller.totalPages.value}',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: greyShade200,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '${'page'.tr} ${controller.currentPage.value} / ${controller.totalPages.value}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: greyShade600,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -93,7 +159,26 @@ class PosItemsSection extends StatelessWidget {
             }
 
             if (controller.items.isEmpty) {
-              return Center(child: Text('noItemsFound'.tr));
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.inventory_2_outlined,
+                      size: 64,
+                      color: greyShade600,
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'noItemsFound'.tr,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: greyShade600,
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
 
             return NotificationListener<ScrollNotification>(
@@ -112,7 +197,7 @@ class PosItemsSection extends StatelessWidget {
                   crossAxisCount: 3,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.65,
                 ),
                 itemCount:
                     controller.items.length +
